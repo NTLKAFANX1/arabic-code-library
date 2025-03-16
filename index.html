@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مكتبة الكود العربي</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="scripts.js" defer></script>
 </head>
 <body>
     <header>
         <h1>مكتبة الكود العربي</h1>
         <nav>
-            <a href="#" onclick="navigate('home')">الرئيسية</a>
-            <a href="#" onclick="navigate('scripts')">نشر سكربت</a>
-            <a href="#" onclick="navigate('contact')">اتصل بنا</a>
+            <button onclick="navigate('home')" class="nav-btn">الرئيسية</button>
+            <button onclick="navigate('scripts')" class="nav-btn">نشر سكربت</button>
+            <button onclick="navigate('contact')" class="nav-btn">اتصل بنا</button>
         </nav>
     </header>
 
@@ -28,10 +28,10 @@
         <form id="scriptForm">
             <input type="text" id="scriptTitle" placeholder="عنوان السكربت" required>
             <textarea id="scriptContent" placeholder="أدخل السكربت هنا..." required></textarea>
-            <button type="submit">نشر السكربت</button>
+            <button type="submit" class="submit-btn">نشر السكربت</button>
         </form>
         <div id="scriptsList">
-            <p>لا توجد سكربتات منشورة بعد.</p>
+            <p id="noScriptsMsg">لا توجد سكربتات منشورة بعد.</p>
         </div>
     </main>
 
