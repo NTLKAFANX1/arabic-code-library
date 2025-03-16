@@ -10,28 +10,27 @@ document.getElementById('scriptForm').addEventListener('submit', function (e) {
     const title = document.getElementById('scriptTitle').value;
     const content = document.getElementById('scriptContent').value;
     const scriptsList = document.getElementById('scriptsList');
+    const noScriptsMsg = document.getElementById('noScriptsMsg');
 
-    const scriptItem = document.createElement('div');
-    scriptItem.innerHTML = `
-        <button class="script-btn" onclick="toggleScript(this)">📄 ${title}</button>
-        <div class="script-content">
-            <pre>${content}</pre>
-            <button class="save-btn" onclick="saveScript('${title}', \`${content}\`)">💾 حفظ السكربت</button>
-        </div>
+    if (noScriptsMsg) {
+        noScriptsMsg.remove();
+    }
+
+    const scriptBox = document.createElement('div');
+    scriptBox.className = 'script-box';
+    scriptBox.innerHTML = `
+        <h3>${title}</h3>
+        <pre id="code-${title}">${content}</pre>
+        <button class="copy-btn" onclick="copyScript('code-${title}')">📋 نسخ السكربت</button>
     `;
-    scriptsList.appendChild(scriptItem);
+
+    scriptsList.appendChild(scriptBox);
     this.reset();
 });
 
-function toggleScript(button) {
-    const contentDiv = button.nextElementSibling;
-    contentDiv.style.display = contentDiv.style.display === 'none' ? 'block' : 'none';
-}
-
-function saveScript(filename, content) {
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `${filename}.txt`;
-    link.click();
+function copyScript(elementId) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert('تم نسخ السكربت!');
+    });
 }
