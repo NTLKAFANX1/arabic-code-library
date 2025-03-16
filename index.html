@@ -13,7 +13,7 @@
         <h1>مكتبة الكود العربي</h1>
         <nav>
             <button onclick="navigate('home')" class="nav-btn">الرئيسية</button>
-            <button onclick="navigate('scripts')" class="nav-btn">نشر سكربت</button>
+            <button onclick="navigate('scripts')" class="nav-btn" id="publishButton" style="display:none;">نشر سكربت</button>
             <button onclick="navigate('contact')" class="nav-btn">اتصل بنا</button>
         </nav>
     </header>
@@ -22,6 +22,16 @@
     <main id="home" class="content">
         <h2>مرحباً بك في مكتبة الكود العربي!</h2>
         <p>شارك أكوادك البرمجية بأمان واحترافية.</p>
+    </main>
+
+    <!-- قسم تسجيل الدخول -->
+    <main id="login" class="content" style="display: none;">
+        <h2>تسجيل الدخول</h2>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="اسم المستخدم" required>
+            <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
+            <button type="submit" class="submit-btn">تسجيل الدخول</button>
+        </form>
     </main>
 
     <!-- قسم نشر السكربت -->
@@ -52,58 +62,67 @@
         </p>
     </main>
 
-    <!-- قسم تسجيل الدخول -->
-    <main id="login" class="content" style="display: none;">
-        <h2>تسجيل الدخول</h2>
-        <form id="loginForm">
-            <input type="text" id="loginUsername" placeholder="اسم المستخدم" required>
-            <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
-            <button type="submit" class="submit-btn">تسجيل الدخول</button>
-        </form>
-        <p>ليس لديك حساب؟ <a href="#" id="registerLink">إنشاء حساب</a></p>
-    </main>
-
-    <!-- قسم إنشاء الحساب -->
-    <main id="register" class="content" style="display: none;">
-        <h2>إنشاء حساب جديد</h2>
-        <form id="registerForm">
-            <input type="text" id="registerUsername" placeholder="اسم المستخدم" required>
-            <input type="password" id="registerPassword" placeholder="كلمة المرور" required>
-            <button type="submit" class="submit-btn">إنشاء حساب</button>
-        </form>
-    </main>
-
     <footer>
         <p>© 2025 مكتبة الكود العربي - جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
+        // بيانات مالك الموقع: يجب أن يكون لديك حساب باسم المستخدم وكلمة مرور معينة
+        const ownerUsername = 'NTLKAFAN'; // اسم المستخدم الخاص بك
+        const ownerPassword = 'yourpassword'; // كلمة المرور الخاصة بك
+
+        // عندما يتم إرسال نموذج تسجيل الدخول
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // تحقق من اسم المستخدم وكلمة المرور
+            if (username === ownerUsername && password === ownerPassword) {
+                localStorage.setItem('loggedIn', true); // تخزين حالة تسجيل الدخول
+                localStorage.setItem('role', 'owner'); // تعيين صلاحيات مالك الموقع
+                alert('تم تسجيل الدخول بنجاح!');
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('scripts').style.display = 'block';
+                document.getElementById('publishButton').style.display = 'inline-block'; // إظهار زر نشر السكربت
+            } else {
+                alert('اسم المستخدم أو كلمة المرور غير صحيحة!');
+            }
+        });
+
+        // تحقق من حالة تسجيل الدخول عند تحميل الصفحة
+        window.onload = function() {
+            if (localStorage.getItem('loggedIn')) {
+                const role = localStorage.getItem('role');
+                if (role === 'owner') {
+                    document.getElementById('publishButton').style.display = 'inline-block'; // إظهار زر نشر السكربت
+                }
+            } else {
+                document.getElementById('login').style.display = 'block';
+            }
+        };
+
+        // نشر السكربت فقط إذا كان المستخدم هو مالك الموقع
         document.getElementById('scriptForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const imageLink = document.getElementById('imageLink').value;
-            if (imageLink) {
-                const imageUrl = imageLink.includes('raw=true') ? imageLink : imageLink + '?raw=true';
-                document.getElementById('imagePreview').src = imageUrl;
-                document.getElementById('scriptImage').style.display = 'block';
-            } else {
-                document.getElementById('scriptImage').style.display = 'none';
-            }
+            if (localStorage.getItem('role') === 'owner') {
+                const imageLink = document.getElementById('imageLink').value;
+                if (imageLink) {
+                    const imageUrl = imageLink.includes('raw=true') ? imageLink : imageLink + '?raw=true';
+                    document.getElementById('imagePreview').src = imageUrl;
+                    document.getElementById('scriptImage').style.display = 'block';
+                } else {
+                    document.getElementById('scriptImage').style.display = 'none';
+                }
 
-            const scriptTitle = document.getElementById('scriptTitle').value;
-            const scriptContent = document.getElementById('scriptContent').value;
-            const scriptList = document.getElementById('scriptsList');
-
-            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-
-            if (loggedInUser && loggedInUser.role === 'owner') {
-                let scripts = JSON.parse(localStorage.getItem('scripts')) || [];
-                const newScript = { title: scriptTitle, content: scriptContent };
-                scripts.push(newScript);
-                localStorage.setItem('scripts', JSON.stringify(scripts));
+                const scriptTitle = document.getElementById('scriptTitle').value;
+                const scriptContent = document.getElementById('scriptContent').value;
+                const scriptList = document.getElementById('scriptsList');
 
                 const scriptDiv = document.createElement('div');
-                scriptDiv.innerHTML = `<h3>${scriptTitle}</h3><p>${scriptContent}</p>`;
+                scriptDiv.innerHTML = `<h3>${scriptTitle}</h3><p>${scriptContent}</p><button class="delete-btn" onclick="deleteScript('${scriptTitle}')">حذف السكربت</button>`;
                 scriptList.appendChild(scriptDiv);
             } else {
                 alert('أنت ضيف ولا يمكنك نشر السكربتات.');
@@ -112,57 +131,15 @@
             document.getElementById('scriptForm').reset();
         });
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-            const user = storedUsers.find(user => user.username === username && user.password === password);
-
-            if (user) {
-                alert('تم تسجيل الدخول بنجاح!');
-                localStorage.setItem('loggedInUser', JSON.stringify(user));
-                navigate('home');
-            } else {
-                alert('اسم المستخدم أو كلمة المرور غير صحيحة');
-            }
-        });
-
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('registerUsername').value;
-            const password = document.getElementById('registerPassword').value;
-
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            users.push({ username, password, role: 'guest' });
-            localStorage.setItem('users', JSON.stringify(users));
-
-            alert('تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.');
-            navigate('login');
-        });
-
-        document.getElementById('registerLink').addEventListener('click', function() {
-            navigate('register');
-        });
-
-        function navigate(sectionId) {
-            document.querySelectorAll('.content').forEach(section => {
-                section.style.display = 'none';
-            });
-            document.getElementById(sectionId).style.display = 'block';
-        }
-
-        window.addEventListener('load', () => {
-            const scripts = JSON.parse(localStorage.getItem('scripts')) || [];
+        function deleteScript(title) {
             const scriptList = document.getElementById('scriptsList');
-
+            const scripts = Array.from(scriptList.children);
             scripts.forEach(script => {
-                const scriptDiv = document.createElement('div');
-                scriptDiv.innerHTML = `<h3>${script.title}</h3><p>${script.content}</p>`;
-                scriptList.appendChild(scriptDiv);
+                if (script.querySelector('h3').innerText === title) {
+                    script.remove();
+                }
             });
-        });
+        }
     </script>
 </body>
 </html>
