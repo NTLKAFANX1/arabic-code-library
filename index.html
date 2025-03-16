@@ -18,11 +18,13 @@
         </nav>
     </header>
 
+    <!-- قسم الرئيسية -->
     <main id="home" class="content">
         <h2>مرحباً بك في مكتبة الكود العربي!</h2>
         <p>شارك أكوادك البرمجية بأمان واحترافية.</p>
     </main>
 
+    <!-- قسم نشر السكربت -->
     <main id="scripts" class="content" style="display: none;">
         <h2>نشر سكربت جديد</h2>
         <form id="scriptForm">
@@ -39,6 +41,7 @@
         </div>
     </main>
 
+    <!-- قسم اتصل بنا -->
     <main id="contact" class="content" style="display: none;">
         <h2>تواصل معنا</h2>
         <p>
@@ -47,6 +50,27 @@
                 ntlk.afan
             </a>
         </p>
+    </main>
+
+    <!-- قسم تسجيل الدخول -->
+    <main id="login" class="content" style="display: none;">
+        <h2>تسجيل الدخول</h2>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="اسم المستخدم" required>
+            <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
+            <button type="submit" class="submit-btn">تسجيل الدخول</button>
+        </form>
+        <p>ليس لديك حساب؟ <a href="#" id="registerLink">إنشاء حساب</a></p>
+    </main>
+
+    <!-- قسم إنشاء الحساب -->
+    <main id="register" class="content" style="display: none;">
+        <h2>إنشاء حساب جديد</h2>
+        <form id="registerForm">
+            <input type="text" id="registerUsername" placeholder="اسم المستخدم" required>
+            <input type="password" id="registerPassword" placeholder="كلمة المرور" required>
+            <button type="submit" class="submit-btn">إنشاء حساب</button>
+        </form>
     </main>
 
     <footer>
@@ -59,7 +83,6 @@
 
             const imageLink = document.getElementById('imageLink').value;
             if (imageLink) {
-                // هنا نستخدم الرابط الصحيح مع ?raw=true لعرض الصورة
                 const imageUrl = imageLink.includes('raw=true') ? imageLink : imageLink + '?raw=true';
                 document.getElementById('imagePreview').src = imageUrl;
                 document.getElementById('scriptImage').style.display = 'block';
@@ -67,16 +90,78 @@
                 document.getElementById('scriptImage').style.display = 'none';
             }
 
-            // إضافة السكربت إلى قائمة السكربتات المنشورة
             const scriptTitle = document.getElementById('scriptTitle').value;
             const scriptContent = document.getElementById('scriptContent').value;
             const scriptList = document.getElementById('scriptsList');
 
-            const scriptDiv = document.createElement('div');
-            scriptDiv.innerHTML = `<h3>${scriptTitle}</h3><p>${scriptContent}</p>`;
-            scriptList.appendChild(scriptDiv);
-            
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+            if (loggedInUser && loggedInUser.role === 'owner') {
+                let scripts = JSON.parse(localStorage.getItem('scripts')) || [];
+                const newScript = { title: scriptTitle, content: scriptContent };
+                scripts.push(newScript);
+                localStorage.setItem('scripts', JSON.stringify(scripts));
+
+                const scriptDiv = document.createElement('div');
+                scriptDiv.innerHTML = `<h3>${scriptTitle}</h3><p>${scriptContent}</p>`;
+                scriptList.appendChild(scriptDiv);
+            } else {
+                alert('أنت ضيف ولا يمكنك نشر السكربتات.');
+            }
+
             document.getElementById('scriptForm').reset();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+            const user = storedUsers.find(user => user.username === username && user.password === password);
+
+            if (user) {
+                alert('تم تسجيل الدخول بنجاح!');
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                navigate('home');
+            } else {
+                alert('اسم المستخدم أو كلمة المرور غير صحيحة');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            users.push({ username, password, role: 'guest' });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.');
+            navigate('login');
+        });
+
+        document.getElementById('registerLink').addEventListener('click', function() {
+            navigate('register');
+        });
+
+        function navigate(sectionId) {
+            document.querySelectorAll('.content').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        window.addEventListener('load', () => {
+            const scripts = JSON.parse(localStorage.getItem('scripts')) || [];
+            const scriptList = document.getElementById('scriptsList');
+
+            scripts.forEach(script => {
+                const scriptDiv = document.createElement('div');
+                scriptDiv.innerHTML = `<h3>${script.title}</h3><p>${script.content}</p>`;
+                scriptList.appendChild(scriptDiv);
+            });
         });
     </script>
 </body>
