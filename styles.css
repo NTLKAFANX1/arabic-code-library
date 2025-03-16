@@ -1,38 +1,38 @@
 body {
     font-family: 'Cairo', sans-serif;
     direction: rtl;
-    text-align: right;
-    background-color: #f2f2f2;
     margin: 0;
     padding: 0;
+    background-color: #f9f9f9;
 }
 
 header {
-    background-color: #222;
+    background-color: #333;
     color: #fff;
-    padding: 15px;
-}
-
-header h1 {
-    margin: 0;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header nav a {
     color: #fff;
-    margin: 0 15px;
+    margin: 0 10px;
+    padding: 5px 15px;
     text-decoration: none;
-    padding: 5px 10px;
+    background-color: #555;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 header nav a:hover {
-    background-color: #444;
-    border-radius: 5px;
+    background-color: #777;
 }
 
-main {
+main.content {
     padding: 20px;
-    background-color: #fff;
     margin: 20px;
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
@@ -46,9 +46,9 @@ form input, form textarea {
 }
 
 form button {
+    padding: 10px 20px;
     background-color: #28a745;
     color: #fff;
-    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -59,7 +59,7 @@ form button:hover {
 }
 
 footer {
-    background-color: #222;
+    background-color: #333;
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -67,4 +67,18 @@ footer {
 
 a img {
     vertical-align: middle;
+    margin-left: 8px;
+}
+
+#scriptsList div {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    position: relative;
+}
+
+#scriptsList div p {
+    user-select: none;
 }
