@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة الكود العربي</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>مكتبة الكود العربي</h1>
+        <nav>
+            <a href="#">الرئيسية</a>
+            <a href="#">الأكواد</a>
+            <a href="#">المدونة</a>
+            <a href="#">اتصل بنا</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>مرحباً بك!</h2>
+            <p>هنا تجد أكواد برمجية جاهزة باللغة العربية مع شروحات مبسطة.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 مكتبة الكود العربي</p>
+    </footer>
+</body>
+</html>
