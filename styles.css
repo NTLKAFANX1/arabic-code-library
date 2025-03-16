@@ -1,84 +1,93 @@
+/* إعدادات أساسية */
 body {
-    font-family: 'Cairo', sans-serif;
+    font-family: 'Tajawal', sans-serif;
     direction: rtl;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #f0f0f5;
+    color: #333;
 }
 
 header {
-    background-color: #333;
+    background-color: #1a1a2e;
+    padding: 20px;
     color: #fff;
-    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 header nav a {
-    color: #fff;
-    margin: 0 10px;
-    padding: 5px 15px;
+    color: #e94560;
+    margin: 0 15px;
+    padding: 8px 15px;
     text-decoration: none;
-    background-color: #555;
+    background-color: #16213e;
     border-radius: 5px;
     transition: 0.3s;
 }
 
 header nav a:hover {
-    background-color: #777;
+    background-color: #0f3460;
+    color: #fff;
 }
 
 main.content {
     padding: 20px;
-    margin: 20px;
+    margin: 30px auto;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
 }
 
 form input, form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
 }
 
-form button {
-    padding: 10px 20px;
-    background-color: #28a745;
+form button, .save-btn {
+    padding: 12px 20px;
+    background-color: #e94560;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+form button:hover, .save-btn:hover {
+    background-color: #d72638;
+}
+
+.script-btn {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #0f3460;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-form button:hover {
-    background-color: #218838;
+.script-content {
+    padding: 15px;
+    margin-top: 10px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    display: none;
 }
 
 footer {
-    background-color: #333;
+    background-color: #1a1a2e;
     color: #fff;
     text-align: center;
-    padding: 10px;
-}
-
-a img {
-    vertical-align: middle;
-    margin-left: 8px;
-}
-
-#scriptsList div {
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    background-color: #f2f2f2;
-    border-radius: 5px;
-    position: relative;
-}
-
-#scriptsList div p {
-    user-select: none;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 0 0 12px 12px;
 }
