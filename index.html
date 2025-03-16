@@ -6,27 +6,28 @@
     <title>مكتبة الكود العربي</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="scripts.js" defer></script>
 </head>
 <body>
     <header>
         <h1>مكتبة الكود العربي</h1>
         <nav>
-            <a href="#" onclick="showSection('home')">الرئيسية</a>
-            <a href="#" onclick="showSection('scripts')">الأكواد</a>
-            <a href="#" onclick="showSection('contact')">اتصل بنا</a>
+            <a href="#" onclick="navigate('home')">الرئيسية</a>
+            <a href="#" onclick="navigate('scripts')">نشر سكربت</a>
+            <a href="#" onclick="navigate('contact')">اتصل بنا</a>
         </nav>
     </header>
 
-    <main id="home">
-        <h2>مرحباً بك!</h2>
-        <p>هنا تجد أكواد برمجية جاهزة باللغة العربية مع شروحات مبسطة.</p>
+    <main id="home" class="content">
+        <h2>مرحباً بك في مكتبة الكود العربي!</h2>
+        <p>هنا يمكنك مشاركة الأكواد البرمجية الخاصة بك بأمان.</p>
     </main>
 
-    <main id="scripts" style="display: none;">
+    <main id="scripts" class="content" style="display: none;">
         <h2>نشر سكربت جديد</h2>
         <form id="scriptForm">
-            <input type="text" placeholder="عنوان السكربت" required>
-            <textarea placeholder="أدخل السكربت هنا..." required></textarea>
+            <input type="text" id="scriptTitle" placeholder="عنوان السكربت" required>
+            <textarea id="scriptContent" placeholder="أدخل السكربت هنا..." required></textarea>
             <button type="submit">نشر السكربت</button>
         </form>
         <div id="scriptsList">
@@ -34,18 +35,18 @@
         </div>
     </main>
 
-    <main id="contact" style="display: none;">
+    <main id="contact" class="content" style="display: none;">
         <h2>تواصل معنا</h2>
-        <p>إنستاغرام: <a href="https://instagram.com/ntlk.afan" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" width="20">
-            ntlk.afan
-        </a></p>
+        <p>
+            <a href="https://instagram.com/ntlk.afan" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" width="30">
+                ntlk.afan
+            </a>
+        </p>
     </main>
 
     <footer>
         <p>© 2025 مكتبة الكود العربي</p>
     </footer>
-
-    <script src="scripts.js"></script>
 </body>
 </html>
