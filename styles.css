@@ -1,31 +1,31 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة الكود العربي</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>مكتبة الكود العربي</h1>
-        <nav>
-            <a href="#">الرئيسية</a>
-            <a href="#">الأكواد</a>
-            <a href="#">المدونة</a>
-            <a href="#">اتصل بنا</a>
-        </nav>
-    </header>
+body {
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    text-align: right;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
 
-    <main>
-        <section>
-            <h2>مرحباً بك!</h2>
-            <p>هنا تجد أكواد برمجية جاهزة باللغة العربية مع شروحات مبسطة.</p>
-        </section>
-    </main>
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+}
 
-    <footer>
-        <p>© 2025 مكتبة الكود العربي</p>
-    </footer>
-</body>
-</html>
+header nav a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
