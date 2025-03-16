@@ -5,27 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مكتبة الكود العربي</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>مكتبة الكود العربي</h1>
         <nav>
-            <a href="#">الرئيسية</a>
-            <a href="#">الأكواد</a>
-            <a href="#">المدونة</a>
-            <a href="#">اتصل بنا</a>
+            <a href="#" onclick="showSection('home')">الرئيسية</a>
+            <a href="#" onclick="showSection('scripts')">الأكواد</a>
+            <a href="#" onclick="showSection('contact')">اتصل بنا</a>
         </nav>
     </header>
 
-    <main>
-        <section>
-            <h2>مرحباً بك!</h2>
-            <p>هنا تجد أكواد برمجية جاهزة باللغة العربية مع شروحات مبسطة.</p>
-        </section>
+    <main id="home">
+        <h2>مرحباً بك!</h2>
+        <p>هنا تجد أكواد برمجية جاهزة باللغة العربية مع شروحات مبسطة.</p>
+    </main>
+
+    <main id="scripts" style="display: none;">
+        <h2>نشر سكربت جديد</h2>
+        <form id="scriptForm">
+            <input type="text" placeholder="عنوان السكربت" required>
+            <textarea placeholder="أدخل السكربت هنا..." required></textarea>
+            <button type="submit">نشر السكربت</button>
+        </form>
+        <div id="scriptsList">
+            <p>لا توجد سكربتات منشورة بعد.</p>
+        </div>
+    </main>
+
+    <main id="contact" style="display: none;">
+        <h2>تواصل معنا</h2>
+        <p>إنستاغرام: <a href="https://instagram.com/ntlk.afan" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" width="20">
+            ntlk.afan
+        </a></p>
     </main>
 
     <footer>
         <p>© 2025 مكتبة الكود العربي</p>
     </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
