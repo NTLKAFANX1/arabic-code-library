@@ -31,6 +31,18 @@
             <input type="text" id="loginUsername" placeholder="اسم المستخدم" required>
             <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
             <button type="submit" class="submit-btn">تسجيل الدخول</button>
+            <p>ليس لديك حساب؟ <a href="javascript:void(0)" onclick="showSignUpForm()">إنشاء حساب جديد</a></p>
+        </form>
+    </main>
+
+    <!-- قسم إنشاء حساب -->
+    <main id="signUp" class="content" style="display: none;">
+        <h2>إنشاء حساب جديد</h2>
+        <form id="signUpForm">
+            <input type="text" id="signUpUsername" placeholder="اسم المستخدم" required>
+            <input type="password" id="signUpPassword" placeholder="كلمة المرور" required>
+            <button type="submit" class="submit-btn">إنشاء الحساب</button>
+            <p>هل لديك حساب؟ <a href="javascript:void(0)" onclick="showLoginForm()">تسجيل الدخول</a></p>
         </form>
     </main>
 
@@ -67,25 +79,56 @@
     </footer>
 
     <script>
-        // بيانات مالك الموقع: يجب أن يكون لديك حساب باسم المستخدم وكلمة مرور معينة
-        const ownerUsername = 'NTLKAFAN'; // اسم المستخدم الخاص بك
-        const ownerPassword = 'yourpassword'; // كلمة المرور الخاصة بك
+        // البيانات الخاصة بالحسابات المخزنة
+        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
 
-        // عندما يتم إرسال نموذج تسجيل الدخول
+        // إظهار نموذج التسجيل
+        function showSignUpForm() {
+            document.getElementById('signUp').style.display = 'block';
+            document.getElementById('login').style.display = 'none';
+        }
+
+        // إظهار نموذج تسجيل الدخول
+        function showLoginForm() {
+            document.getElementById('login').style.display = 'block';
+            document.getElementById('signUp').style.display = 'none';
+        }
+
+        // تسجيل حساب جديد
+        document.getElementById('signUpForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('signUpUsername').value;
+            const password = document.getElementById('signUpPassword').value;
+
+            // تحقق من وجود الحساب
+            const existingAccount = accounts.find(account => account.username === username);
+            if (existingAccount) {
+                alert('اسم المستخدم هذا موجود بالفعل!');
+                return;
+            }
+
+            // إضافة الحساب الجديد
+            accounts.push({ username, password });
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+            alert('تم إنشاء الحساب بنجاح!');
+            showLoginForm();
+        });
+
+        // تسجيل الدخول
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
-
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
 
-            // تحقق من اسم المستخدم وكلمة المرور
-            if (username === ownerUsername && password === ownerPassword) {
-                localStorage.setItem('loggedIn', true); // تخزين حالة تسجيل الدخول
-                localStorage.setItem('role', 'owner'); // تعيين صلاحيات مالك الموقع
-                alert('تم تسجيل الدخول بنجاح!');
+            // تحقق من صحة اسم المستخدم وكلمة المرور
+            const account = accounts.find(account => account.username === username && account.password === password);
+            if (account) {
+                localStorage.setItem('loggedIn', true);
+                localStorage.setItem('username', username);
                 document.getElementById('login').style.display = 'none';
                 document.getElementById('scripts').style.display = 'block';
                 document.getElementById('publishButton').style.display = 'inline-block'; // إظهار زر نشر السكربت
+                alert('تم تسجيل الدخول بنجاح!');
             } else {
                 alert('اسم المستخدم أو كلمة المرور غير صحيحة!');
             }
@@ -94,10 +137,8 @@
         // تحقق من حالة تسجيل الدخول عند تحميل الصفحة
         window.onload = function() {
             if (localStorage.getItem('loggedIn')) {
-                const role = localStorage.getItem('role');
-                if (role === 'owner') {
-                    document.getElementById('publishButton').style.display = 'inline-block'; // إظهار زر نشر السكربت
-                }
+                document.getElementById('scripts').style.display = 'block';
+                document.getElementById('publishButton').style.display = 'inline-block'; // إظهار زر نشر السكربت
             } else {
                 document.getElementById('login').style.display = 'block';
             }
@@ -107,7 +148,7 @@
         document.getElementById('scriptForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            if (localStorage.getItem('role') === 'owner') {
+            if (localStorage.getItem('loggedIn')) {
                 const imageLink = document.getElementById('imageLink').value;
                 if (imageLink) {
                     const imageUrl = imageLink.includes('raw=true') ? imageLink : imageLink + '?raw=true';
@@ -125,7 +166,7 @@
                 scriptDiv.innerHTML = `<h3>${scriptTitle}</h3><p>${scriptContent}</p><button class="delete-btn" onclick="deleteScript('${scriptTitle}')">حذف السكربت</button>`;
                 scriptList.appendChild(scriptDiv);
             } else {
-                alert('أنت ضيف ولا يمكنك نشر السكربتات.');
+                alert('يجب عليك تسجيل الدخول أولاً.');
             }
 
             document.getElementById('scriptForm').reset();
