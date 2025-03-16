@@ -28,10 +28,14 @@
         <form id="scriptForm">
             <input type="text" id="scriptTitle" placeholder="عنوان السكربت" required>
             <textarea id="scriptContent" placeholder="أدخل السكربت هنا..." required></textarea>
+            <input type="text" id="imageLink" placeholder="أدخل رابط الصورة هنا (اختياري)">
             <button type="submit" class="submit-btn">نشر السكربت</button>
         </form>
         <div id="scriptsList">
             <p id="noScriptsMsg">لا توجد سكربتات منشورة بعد.</p>
+        </div>
+        <div id="scriptImage" style="display: none;">
+            <img id="imagePreview" src="" alt="صورة السكربت" width="200">
         </div>
     </main>
 
@@ -48,5 +52,32 @@
     <footer>
         <p>© 2025 مكتبة الكود العربي - جميع الحقوق محفوظة</p>
     </footer>
+
+    <script>
+        document.getElementById('scriptForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const imageLink = document.getElementById('imageLink').value;
+            if (imageLink) {
+                // هنا نستخدم الرابط الصحيح مع ?raw=true لعرض الصورة
+                const imageUrl = imageLink.includes('raw=true') ? imageLink : imageLink + '?raw=true';
+                document.getElementById('imagePreview').src = imageUrl;
+                document.getElementById('scriptImage').style.display = 'block';
+            } else {
+                document.getElementById('scriptImage').style.display = 'none';
+            }
+
+            // إضافة السكربت إلى قائمة السكربتات المنشورة
+            const scriptTitle = document.getElementById('scriptTitle').value;
+            const scriptContent = document.getElementById('scriptContent').value;
+            const scriptList = document.getElementById('scriptsList');
+
+            const scriptDiv = document.createElement('div');
+            scriptDiv.innerHTML = `<h3>${scriptTitle}</h3><p>${scriptContent}</p>`;
+            scriptList.appendChild(scriptDiv);
+            
+            document.getElementById('scriptForm').reset();
+        });
+    </script>
 </body>
 </html>
